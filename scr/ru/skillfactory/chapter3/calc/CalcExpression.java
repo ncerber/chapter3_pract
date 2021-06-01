@@ -55,6 +55,16 @@ public class CalcExpression {
         }
     }
 
+    private int findSecondOper(String[] sMass, int currentIter){
+        int lCurrentIter = currentIter+1;
+
+        while (true){
+            if(sMass[lCurrentIter].length()>0) return lCurrentIter;
+            if(lCurrentIter<0) return -1;
+            lCurrentIter++;
+        }
+    }
+
     public double execCalc(String[] expression) {
         double result = 0;
         boolean isCalc = true;
@@ -68,29 +78,15 @@ public class CalcExpression {
                 int fIter = findFirstOper(expression,i);
                 if (fIter<0) return 0;
                 String fOper = expression[fIter];
-                String sOper = "";
 
-                boolean isFind = false;
-
-                int secondIter = i + 1;
-
-                if (secondIter >= expression.length) {
-                    break;
-                }
-
-                while (!isFind) {
-                    if (expression[secondIter].length() > 0) {
-                        isFind = true;
-                    } else secondIter++;
-                    if (secondIter >= expression.length) break;
-                }
-                if (isFind) sOper = expression[secondIter];
-                else sOper = "1";
+                int sIter = findSecondOper(expression,i);
+                if(sIter<0) return 0;
+                String sOper = expression[sIter];
 
                 double res = calcOper(fOper, sOper, expression[i].charAt(0));
                 expression[fIter] = String.valueOf(res);
                 expression[i] = "";
-                expression[secondIter] = "";
+                expression[sIter] = "";
             }
         }
 
@@ -100,29 +96,15 @@ public class CalcExpression {
                 int fIter = findFirstOper(expression,i);
                 if (fIter<0) return 0;
                 String fOper = expression[fIter];
-                String sOper = "";
 
-                boolean isFind = false;
-
-                int secondIter = i + 1;
-
-                if (secondIter >= expression.length) {
-                    break;
-                }
-
-                while (!isFind) {
-                    if (expression[secondIter].length() > 0) {
-                        isFind = true;
-                    } else secondIter++;
-                    if (secondIter >= expression.length) break;
-                }
-                if (isFind) sOper = expression[secondIter];
-                else sOper = "1";
+                int sIter = findSecondOper(expression,i);
+                if(sIter<0) return 0;
+                String sOper = expression[sIter];
 
                 double res = calcOper(fOper, sOper, expression[i].charAt(0));
                 expression[fIter] = String.valueOf(res);
                 expression[i] = "";
-                expression[secondIter] = "";
+                expression[sIter] = "";
             }
         }
 
