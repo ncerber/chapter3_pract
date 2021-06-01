@@ -3,26 +3,10 @@ package ru.skillfactory.chapter3.parsing;
 import java.util.Arrays;
 
 public class ParseExpression {
-    private char[] Operations = {'+', '-', '/', '*'};
-
-    private boolean isOperation(char Operation){
-        for (char ch : Operations) {
-            if(ch==Operation) return true;
-        }
-        return false;
-    }
-
-    private int getCountOperations(String expexpression) {
-        int tCountOperation = 0;
-        for (int i = 0; i < expexpression.length(); i++) {
-            if(isOperation(expexpression.charAt(i))) tCountOperation++;
-        }
-
-        return tCountOperation;
-    }
+    Operations operations = new Operations();
 
     public String[] exec(String expexpression) {
-        int countOperation = getCountOperations(expexpression);
+        int countOperation = operations.getCountOperations(expexpression);
         if(countOperation==0) return new String[]{};
         countOperation+=countOperation+1;
 
@@ -32,14 +16,17 @@ public class ParseExpression {
         int massIterator = 0;
         for (int i = 0; i < expexpression.length(); i++) {
             char simbol = expexpression.charAt(i);
-            if(isOperation(simbol)) {
+            if(operations.isOperation(simbol)) {
                 operMass[massIterator++] = buf;
                 operMass[massIterator] = operMass[massIterator] + simbol;
                 massIterator++;
                 buf="";
             } else buf = buf+simbol;
         }
+        if(buf.length()>0){
+            operMass[massIterator] = buf;
+        }
 
-        return new String[]{};
+        return operMass;
     }
 }
