@@ -27,22 +27,13 @@ public class CalcExpression {
         double dFirstOper = Double.parseDouble(firstOper);
         double dSecondOper = Double.parseDouble(secondOper);
 
-        switch (operation) {
-            case '+':
-                return addition(dFirstOper, dSecondOper);
-
-            case '-':
-                return subtraction(dFirstOper, dSecondOper);
-
-            case '*':
-                return multiplication(dFirstOper, dSecondOper);
-
-            case '/':
-                return division(dFirstOper, dSecondOper);
-
-            default:
-                return 0;
-        }
+        return switch (operation) {
+            case '+' -> addition(dFirstOper, dSecondOper);
+            case '-' -> subtraction(dFirstOper, dSecondOper);
+            case '*' -> multiplication(dFirstOper, dSecondOper);
+            case '/' -> division(dFirstOper, dSecondOper);
+            default -> 0;
+        };
     }
 
     private int findFirstOper(String[] sMass, int currentIter){
@@ -60,16 +51,12 @@ public class CalcExpression {
 
         while (true){
             if(sMass[lCurrentIter].length()>0) return lCurrentIter;
-            if(lCurrentIter<0) return -1;
+            if(lCurrentIter>=sMass.length) return -1;
             lCurrentIter++;
         }
     }
 
     public double execCalc(String[] expression) {
-        double result = 0;
-        boolean isCalc = true;
-
-        int iter = 0;
         if (expression.length == 0) return 0;
 
         for (int i = 0; i < expression.length; i++) {
@@ -77,13 +64,13 @@ public class CalcExpression {
             if (operations.isHighOperation(expression[i].charAt(0))) {
                 int fIter = findFirstOper(expression,i);
                 if (fIter<0) return 0;
-                String fOper = expression[fIter];
+                String fPer = expression[fIter];
 
                 int sIter = findSecondOper(expression,i);
                 if(sIter<0) return 0;
                 String sOper = expression[sIter];
 
-                double res = calcOper(fOper, sOper, expression[i].charAt(0));
+                double res = calcOper(fPer, sOper, expression[i].charAt(0));
                 expression[fIter] = String.valueOf(res);
                 expression[i] = "";
                 expression[sIter] = "";
